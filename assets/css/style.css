@@ -1,0 +1,25 @@
+.code-box{
+	position: sticky;
+	top: 50px;
+}
+#editor{
+	min-height: 400px;
+  display: block;
+  border: 1px solid var(--bs-blue);
+}
+.output-card{
+	min-height: 400px;
+	margin-top: 25px;
+}
+#codeOutputBody{
+	background-color: #F0F6FC;
+	border-radius: 7px;
+}
+
+@media(min-width: 768px){
+	.btn-box-container{
+		position: sticky;
+    top: 255px;
+    margin-top: 200px;
+	}
+}
