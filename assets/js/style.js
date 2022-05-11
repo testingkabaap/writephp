@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 	/* ACE EDITOR CONFIG */
 	try {
-		var codeText = "echo 'Hello World!';";
+		var codeText = "$table = 5;\nfor($i = 1; $i <= 10; $i++) {\n\techo $table.' x '.$i.' = '.($table*$i).'<br>';\n}";
 		var editor = ace.edit("editor");
 	  editor.setTheme("ace/theme/monokai");
 	  editor.setValue(codeText);
