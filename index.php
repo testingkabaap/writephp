@@ -1,33 +1,35 @@
 <?php
-if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-	$HOST = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_ADDR'].'/';
+	$HOST  = "http://" . $_SERVER['HTTP_HOST'];
+	$HOST .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 
-	if( isset($_POST['data']) ){
+	if (isset($_POST['data'])) {
 
 		$PHP_FILE_PATH = 'code/index.php';
 
 		$CODE_DATA = '<?php
-'.$_POST['data'];
+' . $_POST['data'];
 
-    //UPDATING FILE
-    $myFile = fopen($PHP_FILE_PATH, "w") or die("Unable to open file!");
-    fwrite($myFile, $CODE_DATA);
-    fclose($myFile);
+		//UPDATING FILE
+		$myFile = fopen($PHP_FILE_PATH, "w") or die("Unable to open file!");
+		fwrite($myFile, $CODE_DATA);
+		fclose($myFile);
 
-    $URL = $HOST.'/writephp/code/index.php';
+		$URL = $HOST . 'code/index.php';
 
-    $ch = curl_init();
-		curl_setopt($ch,CURLOPT_URL, $URL);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $URL);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-    $res = array('status'=>1,'msg'=>'Success!!!','data'=>$response);
-	} else $res = array('status'=>0,'error'=>'Invalid Parameters!!!');
-	echo json_encode($res);exit();
+		$res = array('status' => 1, 'msg' => 'Success!!!', 'data' => $response);
+	} else $res = array('status' => 0, 'error' => 'Invalid Parameters!!!');
+	echo json_encode($res);
+	exit();
 }
 
 ?>
@@ -35,6 +37,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,8 +48,9 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<!-- /CSS -->
 </head>
+
 <body>
-	<input type="hidden" name="currentPageUrl" value="<?php echo $HOST.'/writephp/'; ?>">
+	<input type="hidden" name="currentPageUrl" value="<?php echo $HOST . '/writephp/'; ?>">
 
 	<section class="pt-5 pb-5">
 		<div class="container-fluid">
@@ -59,7 +63,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 					<div class="code-box">
 						<div class="mb-3">
 							<label class="text-danger"><strong>&lt;?php</strong></label>
-							<div id="editor" name="data"></div>	
+							<div id="editor" name="data"></div>
 						</div>
 					</div>
 				</div>
@@ -67,7 +71,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 				<div class="col-md-2 ps-md-0 pe-md-0">
 					<div class="btn-box-container">
 						<div class="text-center">
-							<button class="btn btn-primary" type="button" id="formSubmitButton">Run Code</button>	
+							<button class="btn btn-primary" type="button" id="formSubmitButton">Run Code</button>
 						</div>
 					</div>
 				</div>
@@ -92,4 +96,5 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 	<script type="text/javascript" src="assets/js/style.js"></script>
 	<!-- /SCRIPTS -->
 </body>
+
 </html>
